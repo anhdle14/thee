@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
+  - base/cert-manager.sealedsecret.yaml
+
+patchesStrategicMerge:
+  - patches/cert-manager.ns.yaml
+
+patches:
+  - patches/cert-manager.svc.yaml

@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: kiali-operator
+  labels:
+    istio-injection: enabled

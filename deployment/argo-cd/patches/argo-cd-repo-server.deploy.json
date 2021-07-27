@@ -1,0 +1,49 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/volumes/0",
+    "value": {
+      "emptyDir": {},
+      "name": "custom-tools"
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/volumeMounts/0",
+    "value": {
+      "mountPath": "/usr/local/bin/kustomize",
+      "name": "custom-tools",
+      "subPath": "kustomize"
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/initContainers",
+    "value": [
+      {
+        "args": [
+          "wget -qO- \"https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz\" | tar -C /custom-tools -xvzf -\n"
+        ],
+        "command": [
+          "/bin/sh",
+          "-c"
+        ],
+        "env": [
+          {
+            "name": "KUSTOMIZE_VERSION",
+            "value": "4.2.0"
+          }
+        ],
+        "image": "alpine:3.14",
+        "imagePullPolicy": "Always",
+        "name": "install-kustomize",
+        "volumeMounts": [
+          {
+            "mountPath": "/custom-tools",
+            "name": "custom-tools"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali-operator
+  namespace: argo-cd
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: kiali-operator
+    repoURL: https://kiali.org/helm-charts
+    targetRevision: v1.40.0
+    helm:
+      releaseName: kiali-operator
+      # FIXME: Auth0 authentication for OIDC
+      values: |
+        clusterRoleCreator: true
+        cr:
+          create: true
+          namespace: istio-system
+          spec:
+            api:
+              namespaces:
+                exclude:
+                  - "istio-operator"
+                  - "kube-system"
+                  - "kube-public"
+                  - "kube-node-lease"
+            deployment:
+              ingress_enabled: "false"
+              accessible_namespaces:
+                - "**"
+            auth:
+              strategy: anonymous
+            external_services:
+              custom_dashboards:
+                enabled: false
+              prometheus:
+                url: http://kube-prometheus-stack-prometheus:9090
+                auth:
+                  use_kiali_token: true
+              tracing:
+                enabled: true
+                auth:
+                  use_kiali_token: true
+                in_cluster_url: http://jaeger-query:16685/jaeger
+                url: http://jaeger.int.anhdle14.me
+                use_grpc: true
+                whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
+              grafana:
+                auth:
+                  type: none
+                in_cluster_url: http://kube-prometheus-stack-grafana
+                url: https://grafana.int.anhdle14.me
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kiali-operator
+  syncPolicy:
+    automated:
+      prune: true

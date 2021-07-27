@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argo-cd
+  labels:
+    istio-injection: enabled

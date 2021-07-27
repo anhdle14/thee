@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+data:
+  admin.enabled: "true"
+  statusbadge.enabled: "true"
+  users.anonymous.enabled: "false"
+  url: https://argo-cd.int.anhdle14.me
+  resource.customizations: |
+    argoproj.io/Application:
+      health.lua: |
+        hs = {}
+        hs.status = "Progressing"
+        hs.message = ""
+        if obj.status ~= nil then
+          if obj.status.health ~= nil then
+            hs.status = obj.status.health.status
+            if obj.status.health.message ~= nil then
+              hs.message = obj.status.health.message
+            end
+          end
+        end
+        return hs
+    admissionregistration.k8s.io/MutatingWebhookConfiguration:
+      ignoreDifferences: |
+        jsonPointers:
+        - /webhooks/0/clientConfig/caBundle
+    install.istio.io/IstioOperator:
+      health.lua: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.status == "HEALTHY" then
+            hs.status = "Healthy"
+            hs.message = "IstioOperator Ready"
+            return hs
+          end
+        end
+        hs.status = "Progressing"
+        hs.message = "Waiting for IstioOperator"
+        return hs
+  application.instanceLabelKey: argocd.argoproj.io/instance
+  oidc.config: |
+    name: Auth0
+    issuer: https://anhdle14.jp.auth0.com/
+    clientID: $oidc.auth0.clientID
+    clientSecret: $oidc.auth0.clientSecret
+    requestedScopes:
+    - openid
+    - profile
+    - email
+    - roles
+    - 'http://anhdle14.jp.auth0.com/groups'

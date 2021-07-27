@@ -1,0 +1,37 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
+
+patchesJson6902:
+  - path: patches/rbac.authorization.json
+    target:
+      kind: Role
+      name: sealed-secrets-key-admin
+      version: v1beta1
+  - path: patches/rbac.authorization.json
+    target:
+      kind: Role
+      name: sealed-secrets-service-proxier
+      version: v1beta1
+  - path: patches/rbac.authorization.json
+    target:
+      kind: RoleBinding
+      name: sealed-secrets-controller
+      version: v1beta1
+  - path: patches/rbac.authorization.json
+    target:
+      kind: RoleBinding
+      name: sealed-secrets-service-proxier
+      version: v1beta1
+  - path: patches/rbac.authorization.json
+    target:
+      kind: ClusterRole
+      name: secrets-unsealer
+      version: v1beta1
+  - path: patches/rbac.authorization.json
+    target:
+      kind: ClusterRoleBinding
+      name: sealed-secrets-controller
+      version: v1beta1

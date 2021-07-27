@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Naming thing is hard even for Argoproj Team, they should fix it to everything argo-cd.
+namespace: argo-cd
+
+resources:
+  - kube-prometheus-stack.application.yaml

@@ -1,0 +1,46 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Naming thing is hard even for Argoproj Team, they should fix it to everything argo-cd.
+namespace: argo-cd
+
+resources:
+  - base/argo-cd.ns.yaml
+
+  # Swap to this if you want HA to be installed.
+  # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.5/manifests/ha/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.5/manifests/install.yaml
+
+  - base/argo-cd.vs.yaml
+
+patchesStrategicMerge:
+  # This is the patch to fix the hardcoded namespace
+  - patches/argo-cd.ns.yaml
+  - patches/argo-cd.cm.yaml
+  - patches/argo-cd-rbac.cm.yaml
+  - patches/argo-cd-dex-server.svc.yaml
+  - patches/argo-cd-repo-server.svc.yaml
+  - patches/argo-cd-server.svc.yaml
+  - patches/argo-cd-server-metrics.svc.yaml
+  - patches/argo-cd-metrics.svc.yaml
+
+patchesJson6902:
+  - path: patches/argo-cd-server.deploy.json
+    target:
+      group: apps
+      kind: Deployment
+      name: argocd-server
+      version: v1
+  - path: patches/argo-cd-repo-server.deploy.json
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-repo-server
+
+  # IMPORTANT: COMMENT THIS FOR THE FIRST RUN. PLEASE FOLLOW THE GUIDELINE TO GENERATE THIS FILE.
+  - path: patches/argo-cd.secret.json
+    target:
+      version: v1
+      kind: Secret
+      name: argocd-secret

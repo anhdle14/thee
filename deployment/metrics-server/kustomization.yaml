@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://github.com/kubernetes-sigs/metrics-server/releases/download/metrics-server-helm-chart-3.6.0/components.yaml
+  # - https://github.com/kubernetes-sigs/metrics-server/releases/metrics-server-helm-chart-3.6.0/download/high-availability.yaml
+
+patchesJson6902:
+  - path: patches/metrics-server.deploy.json
+    target:
+      version: v1
+      group: apps
+      kind: Deployment
+      name: metrics-server

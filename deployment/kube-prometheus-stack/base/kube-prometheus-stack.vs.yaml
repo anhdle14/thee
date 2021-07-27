@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometheus
+  namespace: istio-system
+spec:
+  hosts:
+    - "prometheus.int.anhdle14.me"
+  gateways:
+    - istio-system/gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 9090
+            host: kube-prometheus-stack-prometheus
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: istio-system
+spec:
+  hosts:
+    - "grafana.int.anhdle14.me"
+  gateways:
+    - istio-system/gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 80
+            host: kube-prometheus-stack-grafana
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: alertmanager
+  namespace: istio-system
+spec:
+  hosts:
+    - "alertmanager.int.anhdle14.me"
+  gateways:
+    - istio-system/gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 9093
+            host: kube-prometheus-stack-alertmanager

@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-anhdle14-me-certificate
+  namespace: istio-system
+spec:
+  secretName: wildcard-anhdle14-me-secret
+  issuerRef:
+    name: cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.int.anhdle14.me"

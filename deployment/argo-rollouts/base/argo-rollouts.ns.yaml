@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: argo-rollouts
+  labels:
+    istio-injection: enabled
