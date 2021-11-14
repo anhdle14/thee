@@ -25,7 +25,7 @@ spec:
         grafana:
           enabled: true
           grafana.ini:
-            auth.anonymous: 
+            auth.anonymous:
               enabled: true
 
         prometheus:

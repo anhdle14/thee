@@ -1,11 +1,11 @@
 kubeseal_args=--controller-name sealed-secrets-controller --controller-namespace kube-system -o yaml
+
 ## Check CLI ###################################################################
-# TODO: Fix this to Makefile GNU functions
 check:
 	@echo ": kubectl version"
 	@kubectl version --short
 	@echo ": istioctl version"
-	@istioctl version --short
+	@istioctl version --short --remote=false
 	@echo ": kubeseal version"
 	@kubeseal --version
 	@echo ": istio-injection=enabled for default namespace"
@@ -22,21 +22,19 @@ metrics-server-deinit:
 sealed-secret-init:
 	@kubectl apply -k deployment/sealed-secret
 
-sealed-secret-make:
-	@echo ": cert-manager secrets"
-	@kubeseal $(kubeseal_args) \
-		< deployment/cert-manager/base/cert-manager.secret.yaml \
-		> deployment/cert-manager/base/cert-manager.sealedsecret.yaml
-	@echo ": argo-cd secrets"
-	@kubeseal $(kubeseal_args) \
-		< deployment/argo-cd/base/argo-cd.secret.yaml \
-		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
+sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
 
 ## Cert-Manager ################################################################
 cert-manager-init:
 	@kubectl apply -k deployment/cert-manager
-	@sleep 15
+	@sleep 20
 	@kubectl apply -k deployment/cert-manager/resources
+
+cert-manager-sealed-secret:
+	@echo "INFO cert-manager secrets"
+	@kubeseal $(kubeseal_args) \
+		< deployment/cert-manager/base/cert-manager.secret.yaml \
+		> deployment/cert-manager/base/cert-manager.sealedsecret.yaml
 
 cert-manager-deinit:
 	@kubectl delete -k deployment/cert-manager --all
@@ -44,7 +42,7 @@ cert-manager-deinit:
 ## Istio #######################################################################
 # https://istio.io/latest/docs/setup/install/operator/
 istio-operator-init:
-	@istioctl version
+	@istioctl version --remote=false
 	@istioctl operator init
 	@kubectl apply -k deployment/istio/operator
 
@@ -52,15 +50,6 @@ istio-operator-init:
 istio-init:
 	@istioctl verify-install
 	@kubectl apply -k deployment/istio
-
-istio-virtual-machine-init:
-	VM_APP="code-server"
-	VM_NAMESPACE="macbook"
-	WORK_DIR="${HOME}/istio-vm"
-	SERVICE_ACCOUNT="macbook"
-	CLUSTER_NETWORK=""
-	VM_NETWORK=""
-	CLUSTER="Kubernetes"
 
 ## ArgoCD ######################################################################
 argo-cd-init:
@@ -70,17 +59,32 @@ argo-cd-token:
 	@kubectl -n argo-cd get secret argocd-initial-admin-secret \
 		 -o go-template="{{.data.password | base64decode}}"
 
+argo-cd-sealed-secret:
+	@echo ": argo-cd secrets"
+	@kubeseal $(kubeseal_args) \
+		< deployment/argo-cd/base/argo-cd.secret.yaml \
+		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
+
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
 	@kubectl apply -k deployment/tekton-pipelines
+
+tekton-pipelines-deinit:
+	@kubectl delete -k deployment/tekton-pipelines
 
 ## Httpbin #####################################################################
 httpbin-init:
 	@kubectl apply -k deployment/httpbin
 
+httpbin-deinit:
+	@kubectl delete -k deployment/httpbin
+
 ## Argo Rollouts ###############################################################
 argo-rollouts-init:
 	@kubectl apply -k deployment/argo-rollouts
+
+argo-rollouts-deinit:
+	@kubectl delete -k deployment/argo-rollouts
 
 ## Jaeger ######################################################################
 jaeger-init:
@@ -124,3 +128,6 @@ code-server-deinit:
 ## Sleep #######################################################################
 sleep-init:
 	@kubectl apply -k deployment/sleep
+
+sleep-deinit:
+	@kubectl delete -k deployment/sleep
