@@ -125,6 +125,13 @@ code-server-init:
 code-server-deinit:
 	@kubectl delete -k deployment/code-server
 
+## Jupyter #####################################################################
+jupyter-init:
+	@kubectl apply -k deployment/jupyter
+
+jupyter-deinit:
+	@kubectl delete -k deployment/jupyter
+
 ## Sleep #######################################################################
 sleep-init:
 	@kubectl apply -k deployment/sleep
