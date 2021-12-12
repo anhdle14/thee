@@ -55,6 +55,9 @@ istio-init:
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd
 
+argo-cd-app:
+	@kubectl apply -k deployment/argo-cd/app
+
 argo-cd-token:
 	@kubectl -n argo-cd get secret argocd-initial-admin-secret \
 		 -o go-template="{{.data.password | base64decode}}"
@@ -64,6 +67,26 @@ argo-cd-sealed-secret:
 	@kubeseal $(kubeseal_args) \
 		< deployment/argo-cd/base/argo-cd.secret.yaml \
 		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
+
+## Argo Rollouts ###############################################################
+argo-rollouts-init:
+	@kubectl apply -k deployment/argo-rollouts
+
+argo-rollouts-app:
+	@kubectl apply -k deployment/argo-rollouts/app
+
+argo-rollouts-deinit:
+	@kubectl delete -k deployment/argo-rollouts
+
+## Bookinfo ####################################################################
+bookinfo-init:
+	@kubectl apply -k deployment/bookinfo
+
+bookinfo-app:
+	@kubectl apply -k deployment/bookinfo/app
+
+bookinfo-deinit:
+	@kubectl delete -k deployment/bookinfo
 
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
@@ -78,13 +101,6 @@ httpbin-init:
 
 httpbin-deinit:
 	@kubectl delete -k deployment/httpbin
-
-## Argo Rollouts ###############################################################
-argo-rollouts-init:
-	@kubectl apply -k deployment/argo-rollouts
-
-argo-rollouts-deinit:
-	@kubectl delete -k deployment/argo-rollouts
 
 ## Jaeger ######################################################################
 jaeger-init:
