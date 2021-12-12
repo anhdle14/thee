@@ -35,3 +35,10 @@ patchesJson6902:
       kind: ClusterRoleBinding
       name: sealed-secrets-controller
       version: v1beta1
+  # Sealed Secrets report unhealthy with ArgoCD
+  - path: patches/sealedsecrets.deployments.json
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: sealed-secrets-controller
