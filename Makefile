@@ -36,6 +36,13 @@ istio-init:
 	@istioctl verify-install
 	@kubectl apply -k deployment/istio
 
+istio-app:
+	@kubectl apply -k deployment/istio/app
+
+istio-deinit:
+	@kubectl delete -k deployment/istio
+	@kubectl delete -k deployment/istio/operator
+
 ## ArgoCD ######################################################################
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd

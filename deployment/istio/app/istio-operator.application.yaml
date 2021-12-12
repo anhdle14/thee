@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio
+  name: istio-operator
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/anhdle14/thee.git
     targetRevision: HEAD
-    path: deployment/istio
+    path: deployment/istio/operator
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
