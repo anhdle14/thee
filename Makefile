@@ -30,6 +30,9 @@ cert-manager-init:
 	@sleep 20
 	@kubectl apply -k deployment/cert-manager/resources
 
+cert-manager-app:
+	@kubectl apply -k deployment/cert-manager/app
+
 cert-manager-sealed-secret:
 	@echo "INFO cert-manager secrets"
 	@kubeseal $(kubeseal_args) \
@@ -88,6 +91,16 @@ bookinfo-app:
 bookinfo-deinit:
 	@kubectl delete -k deployment/bookinfo
 
+## Code Server #################################################################
+code-server-init:
+	@kubectl apply -k deployment/code-server
+
+code-server-app:
+	@kubectl apply -k deployment/code-server/app
+
+code-server-deinit:
+	@kubectl delete -k deployment/code-server
+
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
 	@kubectl apply -k deployment/tekton-pipelines
@@ -133,13 +146,6 @@ kubernetes-dashboard-token:
 	@kubectl -n kubernetes-dashboard get secret \
 		`kubectl -n kubernetes-dashboard get sa/admin -o jsonpath="{.secrets[0].name}"` \
 		 -o go-template="{{.data.token | base64decode}}"
-
-## Code Server #################################################################
-code-server-init:
-	@kubectl apply -k deployment/code-server
-
-code-server-deinit:
-	@kubectl delete -k deployment/code-server
 
 ## Jupyter #####################################################################
 jupyter-init:
