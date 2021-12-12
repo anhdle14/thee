@@ -130,6 +130,16 @@ jaeger-app:
 jaeger-deinit:
 	@kubectl delete -k deployment/jaeger/operator --all
 
+## Jupyter #####################################################################
+jupyter-init:
+	@kubectl apply -k deployment/jupyter
+
+jupyter-app:
+	@kubectl apply -k deployment/jupyter/app
+
+jupyter-deinit:
+	@kubectl delete -k deployment/jupyter
+
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
 	@kubectl apply -k deployment/tekton-pipelines
@@ -159,13 +169,6 @@ kubernetes-dashboard-token:
 	@kubectl -n kubernetes-dashboard get secret \
 		`kubectl -n kubernetes-dashboard get sa/admin -o jsonpath="{.secrets[0].name}"` \
 		 -o go-template="{{.data.token | base64decode}}"
-
-## Jupyter #####################################################################
-jupyter-init:
-	@kubectl apply -k deployment/jupyter
-
-jupyter-deinit:
-	@kubectl delete -k deployment/jupyter
 
 ## Sleep #######################################################################
 sleep-init:
