@@ -157,6 +157,18 @@ kiali-init:
 kiali-app:
 	@kubectl apply -k deployment/kiali/app
 
+## Kubernetes Dashboard ########################################################
+kubernetes-dashboard-init:
+	@kubectl apply -k deployment/kubernetes-dashboard
+
+kubernetes-dashboard-app:
+	@kubectl apply -k deployment/kubernetes-dashboard/app
+
+kubernetes-dashboard-token:
+	@kubectl -n kubernetes-dashboard get secret \
+		`kubectl -n kubernetes-dashboard get sa/admin -o jsonpath="{.secrets[0].name}"` \
+		 -o go-template="{{.data.token | base64decode}}"
+
 ## Kube Prometheus Stack #######################################################
 kube-prometheus-stack-init:
 	@kubectl apply -k deployment/kube-prometheus-stack
@@ -166,15 +178,6 @@ kube-prometheus-stack-app:
 
 kube-prometheus-stack-deinit:
 	@kubectl apply -k deployment/kube-prometheus-stack
-
-## Kubernetes Dashboard ########################################################
-kubernetes-dashboard-init:
-	@kubectl apply -k deployment/kubernetes-dashboard
-
-kubernetes-dashboard-token:
-	@kubectl -n kubernetes-dashboard get secret \
-		`kubectl -n kubernetes-dashboard get sa/admin -o jsonpath="{.secrets[0].name}"` \
-		 -o go-template="{{.data.token | base64decode}}"
 
 ## Sleep #######################################################################
 sleep-init:
