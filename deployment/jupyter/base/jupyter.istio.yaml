@@ -14,4 +14,3 @@ spec:
             port:
               number: 80
             host: jupyter
-

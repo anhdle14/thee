@@ -4,4 +4,3 @@ metadata:
   name: jupyter
   labels:
     istio-injection: enabled
-
