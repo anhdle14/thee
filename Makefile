@@ -11,12 +11,6 @@ check:
 	@echo ": istio-injection=enabled for default namespace"
 	@kubectl label namespace default istio-injection=enabled --overwrite
 
-## Sealed Secret ###############################################################
-sealed-secret-init:
-	@kubectl apply -k deployment/sealed-secret
-
-sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
-
 ## ArgoCD ######################################################################
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd
@@ -171,6 +165,18 @@ metrics-server-app:
 
 metrics-server-deinit:
 	@kubectl delete -k deployment/metrics-server
+
+## Sealed Secret ###############################################################
+sealed-secret-init:
+	@kubectl apply -k deployment/sealed-secret
+
+sealed-secret-app:
+	@kubectl apply -k deployment/sealed-secret/app
+
+sealed-secret-deinit:
+	@kubectl delete -k deployment/sealed-secret
+
+sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
 
 ## Kube Prometheus Stack #######################################################
 kube-prometheus-stack-init:
