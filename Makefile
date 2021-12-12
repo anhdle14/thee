@@ -11,13 +11,6 @@ check:
 	@echo ": istio-injection=enabled for default namespace"
 	@kubectl label namespace default istio-injection=enabled --overwrite
 
-## Metrics Server ##############################################################
-metrics-server-init:
-	@kubectl apply -k deployment/metrics-server
-
-metrics-server-deinit:
-	@kubectl delete -k deployment/metrics-server
-
 ## Sealed Secret ###############################################################
 sealed-secret-init:
 	@kubectl apply -k deployment/sealed-secret
@@ -168,6 +161,16 @@ kubernetes-dashboard-token:
 	@kubectl -n kubernetes-dashboard get secret \
 		`kubectl -n kubernetes-dashboard get sa/admin -o jsonpath="{.secrets[0].name}"` \
 		 -o go-template="{{.data.token | base64decode}}"
+
+## Metrics Server ##############################################################
+metrics-server-init:
+	@kubectl apply -k deployment/metrics-server
+
+metrics-server-app:
+	@kubectl apply -k deployment/metrics-server/app
+
+metrics-server-deinit:
+	@kubectl delete -k deployment/metrics-server
 
 ## Kube Prometheus Stack #######################################################
 kube-prometheus-stack-init:
