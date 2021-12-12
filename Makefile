@@ -24,25 +24,6 @@ sealed-secret-init:
 
 sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
 
-## Istio #######################################################################
-# https://istio.io/latest/docs/setup/install/operator/
-istio-operator-init:
-	@istioctl version --remote=false
-	@istioctl operator init
-	@kubectl apply -k deployment/istio/operator
-
-# We need to separate this because it will take 90~120s for operator to deploy
-istio-init:
-	@istioctl verify-install
-	@kubectl apply -k deployment/istio
-
-istio-app:
-	@kubectl apply -k deployment/istio/app
-
-istio-deinit:
-	@kubectl delete -k deployment/istio
-	@kubectl delete -k deployment/istio/operator
-
 ## ArgoCD ######################################################################
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd
@@ -118,12 +99,24 @@ httpbin-app:
 httpbin-deinit:
 	@kubectl delete -k deployment/httpbin
 
-## Tekton Pipelines ############################################################
-tekton-pipelines-init:
-	@kubectl apply -k deployment/tekton-pipelines
+## Istio #######################################################################
+# https://istio.io/latest/docs/setup/install/operator/
+istio-operator-init:
+	@istioctl version --remote=false
+	@istioctl operator init
+	@kubectl apply -k deployment/istio/operator
 
-tekton-pipelines-deinit:
-	@kubectl delete -k deployment/tekton-pipelines
+# We need to separate this because it will take 90~120s for operator to deploy
+istio-init:
+	@istioctl verify-install
+	@kubectl apply -k deployment/istio
+
+istio-app:
+	@kubectl apply -k deployment/istio/app
+
+istio-deinit:
+	@kubectl delete -k deployment/istio
+	@kubectl delete -k deployment/istio/operator
 
 ## Jaeger ######################################################################
 jaeger-init:
@@ -131,8 +124,18 @@ jaeger-init:
 	@sleep 10
 	@kubectl apply -k deployment/jaeger
 
+jaeger-app:
+	@kubectl apply -k deployment/jaeger/app
+
 jaeger-deinit:
 	@kubectl delete -k deployment/jaeger/operator --all
+
+## Tekton Pipelines ############################################################
+tekton-pipelines-init:
+	@kubectl apply -k deployment/tekton-pipelines
+
+tekton-pipelines-deinit:
+	@kubectl delete -k deployment/tekton-pipelines
 
 ## Kiali #######################################################################
 kiali-operator-init:
