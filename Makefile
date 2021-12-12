@@ -192,5 +192,8 @@ kube-prometheus-stack-deinit:
 sleep-init:
 	@kubectl apply -k deployment/sleep
 
+sleep-app:
+	@kubectl apply -k deployment/sleep/app
+
 sleep-deinit:
 	@kubectl delete -k deployment/sleep
