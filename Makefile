@@ -161,6 +161,9 @@ kiali-app:
 kube-prometheus-stack-init:
 	@kubectl apply -k deployment/kube-prometheus-stack
 
+kube-prometheus-stack-app:
+	@kubectl apply -k deployment/kube-prometheus-stack/app
+
 kube-prometheus-stack-deinit:
 	@kubectl apply -k deployment/kube-prometheus-stack
 
