@@ -127,13 +127,6 @@ jupyter-app:
 jupyter-deinit:
 	@kubectl delete -k deployment/jupyter
 
-## Tekton Pipelines ############################################################
-tekton-pipelines-init:
-	@kubectl apply -k deployment/tekton-pipelines
-
-tekton-pipelines-deinit:
-	@kubectl delete -k deployment/tekton-pipelines
-
 ## Kiali #######################################################################
 kiali-operator-init:
 	@kubectl apply -k deployment/kiali/operator
@@ -197,3 +190,13 @@ sleep-app:
 
 sleep-deinit:
 	@kubectl delete -k deployment/sleep
+
+## Tekton Pipelines ############################################################
+tekton-pipelines-init:
+	@kubectl apply -k deployment/tekton-pipelines
+
+tekton-pipelines-app:
+	@kubectl apply -k deployment/tekton-pipelines/app
+
+tekton-pipelines-deinit:
+	@kubectl delete -k deployment/tekton-pipelines
