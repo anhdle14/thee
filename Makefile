@@ -24,24 +24,6 @@ sealed-secret-init:
 
 sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
 
-## Cert-Manager ################################################################
-cert-manager-init:
-	@kubectl apply -k deployment/cert-manager
-	@sleep 20
-	@kubectl apply -k deployment/cert-manager/resources
-
-cert-manager-app:
-	@kubectl apply -k deployment/cert-manager/app
-
-cert-manager-sealed-secret:
-	@echo "INFO cert-manager secrets"
-	@kubeseal $(kubeseal_args) \
-		< deployment/cert-manager/base/cert-manager.secret.yaml \
-		> deployment/cert-manager/base/cert-manager.sealedsecret.yaml
-
-cert-manager-deinit:
-	@kubectl delete -k deployment/cert-manager --all
-
 ## Istio #######################################################################
 # https://istio.io/latest/docs/setup/install/operator/
 istio-operator-init:
@@ -101,19 +83,40 @@ code-server-app:
 code-server-deinit:
 	@kubectl delete -k deployment/code-server
 
+## Cert-Manager ################################################################
+cert-manager-init:
+	@kubectl apply -k deployment/cert-manager
+	@sleep 20
+	@kubectl apply -k deployment/cert-manager/resources
+
+cert-manager-app:
+	@kubectl apply -k deployment/cert-manager/app
+
+cert-manager-sealed-secret:
+	@echo "INFO cert-manager secrets"
+	@kubeseal $(kubeseal_args) \
+		< deployment/cert-manager/base/cert-manager.secret.yaml \
+		> deployment/cert-manager/base/cert-manager.sealedsecret.yaml
+
+cert-manager-deinit:
+	@kubectl delete -k deployment/cert-manager --all
+
+## Httpbin #####################################################################
+httpbin-init:
+	@kubectl apply -k deployment/httpbin
+
+httpbin-app:
+	@kubectl apply -k deployment/httpbin/app
+
+httpbin-deinit:
+	@kubectl delete -k deployment/httpbin
+
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
 	@kubectl apply -k deployment/tekton-pipelines
 
 tekton-pipelines-deinit:
 	@kubectl delete -k deployment/tekton-pipelines
-
-## Httpbin #####################################################################
-httpbin-init:
-	@kubectl apply -k deployment/httpbin
-
-httpbin-deinit:
-	@kubectl delete -k deployment/httpbin
 
 ## Jaeger ######################################################################
 jaeger-init:
