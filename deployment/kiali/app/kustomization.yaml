@@ -5,5 +5,4 @@ kind: Kustomization
 namespace: argo-cd
 
 resources:
-  - kiali-operator.application.yaml
   - kiali.application.yaml
