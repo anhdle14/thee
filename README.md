@@ -21,5 +21,7 @@ All of this can be setup with GitOps via ArgoCD.
 
 ![RDaaS](assets/RDaaS-Architecture.jpg)
 
+And all of these are managed automatically via ArgoCD with GitOps
+
 ## Getting Started
 

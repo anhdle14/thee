@@ -86,7 +86,7 @@ spec:
     enablePrometheusMerge: true
     extensionProviders: []
   profile: demo
-  tag: 1.11.4
+  tag: 1.12.1
   values:
     base:
       enableCRDTemplates: false
@@ -203,8 +203,6 @@ spec:
       deploymentLabels: null
       enableProtocolSniffingForInbound: true
       enableProtocolSniffingForOutbound: true
-      env:
-        ENABLE_LEGACY_FSGROUP_INJECTION: false
       image: pilot
       keepaliveMaxServerConnectionAge: 30m
       nodeSelector: {}
