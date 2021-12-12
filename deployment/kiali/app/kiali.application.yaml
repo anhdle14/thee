@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-operator
+  name: kiali
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/anhdle14/thee.git
     targetRevision: HEAD
-    path: deployment/kiali/operator
+    path: deployment/kiali
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:

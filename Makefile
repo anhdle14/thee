@@ -154,6 +154,9 @@ kiali-operator-init:
 kiali-init:
 	@kubectl apply -k deployment/kiali
 
+kiali-app:
+	@kubectl apply -k deployment/kiali/app
+
 ## Kube Prometheus Stack #######################################################
 kube-prometheus-stack-init:
 	@kubectl apply -k deployment/kube-prometheus-stack
