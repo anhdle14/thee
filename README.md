@@ -15,7 +15,7 @@ A simple model for setting up an Enterprise architecture locally using:
 
 All of this can be setup with GitOps via ArgoCD.
 
-> NOTE: `jupyter labs` and `code-server` is external of the cluster because I like to use native terminal emulator, but you could easily use `gitpod` or `code-server` and `jupyter` is the same story as well.
+> NOTE: `jupyter labs` and `code-server` are deployed externally because I like to use native terminal emulator, but you could easily use `gitpod` or `code-server` and `jupyter` is the same story as well.
 
 ## Architecture
 
