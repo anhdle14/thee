@@ -4,7 +4,7 @@ metadata:
   name: httpbin
 spec:
   hosts:
-    - "httpbin.int.anhdle14.me"
+    - "httpbinv2.int.anhdle14.me"
   gateways:
     - istio-system/gateway
   http:
