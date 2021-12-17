@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarqube-helm
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: sonarqube
+    repoURL: https://SonarSource.github.io/helm-chart-sonarqube
+    targetRevision: 1.2.4+174
+    helm:
+      releaseName: sonarqube
+      values: |
+        image:
+          repository: sonarqube
+          tag: 9.2.3-community
+          pullPolicy: IfNotPresent
+        nginx:
+          enabled: false
+        ingress:
+          enabled: false
+
+        plugins:
+          install: []
+          lib: []
+
+        ## a monitoring passcode needs to be defined in order to get reasonable probe results
+        # not setting the monitoring passcode will result in a deployment that will never be ready
+        monitoringPasscode: "define_it"
+
+        ## Environment variables to attach to the pods
+        ##
+        # env:
+        #   - name: VARIABLE
+        #     value: my-value
+
+        persistence:
+          enabled: false
+
+        # A custom sonar.properties file can be provided via dictionary.
+        # For example:
+        # sonarProperties:
+        #   sonar.forceAuthentication: true
+        #   sonar.security.realm: LDAP
+        #   ldap.url: ldaps://organization.com
+
+        # Additional sonar properties to load from a secret with a key "secret.properties" (must be a string)
+        # sonarSecretProperties:
+
+        # Kubernetes secret that contains the encryption key for the sonarqube instance.
+        # The secret must contain the key 'sonar-secret.txt'.
+        # The 'sonar.secretKeyPath' property will be set automatically.
+        # sonarSecretKey: "settings-encryption-secret"
+
+        extraConfig:
+          secrets: []
+          configmaps: []
+
+        # account:
+        #   adminPassword: admin
+        #   currentAdminPassword: admin
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sonarqube
+  ignoreDifferences: []
+  syncPolicy:
+    automated:
+      prune: true

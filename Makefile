@@ -28,6 +28,9 @@ argo-cd-sealed-secret:
 		< deployment/argo-cd/base/argo-cd.secret.yaml \
 		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
 
+argo-cd-deinit:
+	@kubectl delete -k deployment/argo-cd
+
 ## Argo Rollouts ###############################################################
 argo-rollouts-init:
 	@kubectl apply -k deployment/argo-rollouts
@@ -190,6 +193,16 @@ sleep-app:
 
 sleep-deinit:
 	@kubectl delete -k deployment/sleep
+
+## Sleep #######################################################################
+sonarqube-init:
+	@kubectl apply -k deployment/sonarqube
+
+sonarqube-app:
+	@kubectl apply -k deployment/sonarqube/app
+
+sonarqube-deinit:
+	@kubectl delete -k deployment/sonarqube
 
 ## Tekton Pipelines ############################################################
 tekton-pipelines-init:
