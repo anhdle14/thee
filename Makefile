@@ -213,3 +213,13 @@ tekton-pipelines-app:
 
 tekton-pipelines-deinit:
 	@kubectl delete -k deployment/tekton-pipelines
+
+## Vault #######################################################################
+vault-init:
+	@kubectl apply -k deployment/vault
+
+vault-app:
+	@kubectl apply -k deployment/vault/app
+
+vault-deinit:
+	@kubectl delete -k deployment/vault
