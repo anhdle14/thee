@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: default
 
 resources:
-  - https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
-  - https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/networking/destination-rule-all.yaml
+  - https://raw.githubusercontent.com/istio/istio/release-1.12/samples/bookinfo/platform/kube/bookinfo.yaml
+  - https://raw.githubusercontent.com/istio/istio/release-1.12/samples/bookinfo/networking/destination-rule-all.yaml
   - base/bookinfo.vs.yaml

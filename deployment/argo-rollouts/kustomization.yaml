@@ -4,8 +4,8 @@ namespace: argo-rollouts
 
 resources:
   - base/argo-rollouts.ns.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-rollouts/v1.0.2/manifests/install.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-rollouts/v1.0.2/manifests/dashboard-install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-rollouts/v1.1.1/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-rollouts/v1.1.1/manifests/dashboard-install.yaml
   - base/argo-rollouts.vs.yaml
 
 patchesStrategicMerge:

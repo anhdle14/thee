@@ -23,10 +23,12 @@ argo-cd-token:
 		 -o go-template="{{.data.password | base64decode}}"
 
 argo-cd-sealed-secret:
-	@echo ": argo-cd secrets"
+	@echo "INFO argo-cd secrets"
 	@kubeseal $(kubeseal_args) \
 		< deployment/argo-cd/base/argo-cd.secret.yaml \
 		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
+
+argo-cd-apps: argo-cd-app argo-rollouts-app bookinfo-app code-server-app cert-manager-app httpbin-app istio-app jaeger-app jupyter-app kiali-app kubernetes-dashboard-app metrics-server-app sealed-secret-app sleep-app sonarqube-app tekton-pipelines-app vault-app
 
 argo-cd-deinit:
 	@kubectl delete -k deployment/argo-cd
@@ -100,6 +102,7 @@ istio-operator-init:
 istio-init:
 	@istioctl verify-install
 	@kubectl apply -k deployment/istio
+	@kubectl label namespace default istio-injection=enabled
 
 istio-app:
 	@kubectl apply -k deployment/istio/app

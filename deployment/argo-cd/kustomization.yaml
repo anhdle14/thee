@@ -8,8 +8,8 @@ resources:
   - base/argo-cd.ns.yaml
 
   # Swap to this if you want HA to be installed.
-  # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.7/manifests/ha/install.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.7/manifests/install.yaml
+  # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.1/manifests/ha/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.1/manifests/install.yaml
 
   - base/argo-cd.vs.yaml
 
