@@ -102,7 +102,7 @@ istio-operator-init:
 istio-init:
 	@istioctl verify-install
 	@kubectl apply -k deployment/istio
-	@kubectl label namespace default istio-injection=enabled
+	@kubectl label namespace default istio-injection=enabled --overwrite=true
 
 istio-app:
 	@kubectl apply -k deployment/istio/app
