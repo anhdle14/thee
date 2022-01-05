@@ -180,6 +180,9 @@ pomerium-init:
 	@kubectl apply -k deployment/pomerium
 	@helm upgrade --install pomerium pomerium/pomerium --values deployment/pomerium/values.yaml --namespace istio-system
 
+pomerium-app:
+	@kubectl apply -k deployment/pomerium/app
+
 pomerium-sealed-secret:
 	@echo "INFO pomerium secrets"
 	@kubeseal $(kubeseal_args) \
