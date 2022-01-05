@@ -143,6 +143,16 @@ kiali-init:
 kiali-app:
 	@kubectl apply -k deployment/kiali/app
 
+## Kube Prometheus Stack #######################################################
+kube-prometheus-stack-init:
+	@kubectl apply -k deployment/kube-prometheus-stack
+
+kube-prometheus-stack-app:
+	@kubectl apply -k deployment/kube-prometheus-stack/app
+
+kube-prometheus-stack-deinit:
+	@kubectl delete -k deployment/kube-prometheus-stack
+
 ## Kubernetes Dashboard ########################################################
 kubernetes-dashboard-init:
 	@kubectl apply -k deployment/kubernetes-dashboard
