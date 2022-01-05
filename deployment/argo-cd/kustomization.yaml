@@ -6,12 +6,13 @@ namespace: argo-cd
 
 resources:
   - base/argo-cd.ns.yaml
+  - base/argo-cd.sealedsecret.yaml
 
   # Swap to this if you want HA to be installed.
   # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.1/manifests/ha/install.yaml
   - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.1/manifests/install.yaml
 
-  - base/argo-cd.vs.yaml
+  - base/argo-cd.istio.yaml
 
 patchesStrategicMerge:
   # This is the patch to fix the hardcoded namespace
@@ -37,10 +38,3 @@ patchesJson6902:
       version: v1
       kind: Deployment
       name: argocd-repo-server
-
-  # IMPORTANT: COMMENT THIS FOR THE FIRST RUN. PLEASE FOLLOW THE GUIDELINE TO GENERATE THIS FILE.
-  - path: patches/argo-cd.secret.json
-    target:
-      version: v1
-      kind: Secret
-      name: argocd-secret

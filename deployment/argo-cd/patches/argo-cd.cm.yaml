@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
-  admin.enabled: "true"
+  admin.enabled: "false"
   statusbadge.enabled: "true"
   users.anonymous.enabled: "false"
   url: https://argo-cd.int.anhdle14.me
@@ -40,14 +40,12 @@ data:
         hs.message = "Waiting for IstioOperator"
         return hs
   application.instanceLabelKey: argocd.argoproj.io/instance
-  oidc.config: |
-    name: Auth0
-    issuer: https://anhdle14.jp.auth0.com/
-    clientID: $oidc.auth0.clientID
-    clientSecret: $oidc.auth0.clientSecret
-    requestedScopes:
-    - openid
-    - profile
-    - email
-    - roles
-    - 'http://anhdle14.jp.auth0.com/groups'
+  dex.config: |
+    connectors:
+      # GitHub example
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $argocd-dex-secret:dex.github.clientID
+          clientSecret: $argocd-dex-secret:dex.github.clientSecret

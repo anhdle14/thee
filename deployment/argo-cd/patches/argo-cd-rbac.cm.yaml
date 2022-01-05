@@ -5,5 +5,3 @@ metadata:
 data:
   policy.csv: |
     g, anhdle14@icloud.com, role:admin
-  policy.default: "role:readonly"
-  scopes: "[http://anhdle14.jp.auth0.com/groups, roles, email]"

@@ -4,7 +4,7 @@ metadata:
   name: argocd-dex-server
 spec:
   ports:
-    - name: http
+    - name: tcp
       port: 5556
       protocol: TCP
       targetPort: 5556
@@ -17,9 +17,7 @@ spec:
       protocol: TCP
       targetPort: 5558
   selector:
-    app: argocd
     app.kubernetes.io/name: argocd-dex-server
-    version: v2.1.5
   sessionAffinity: None
   type: ClusterIP
 status:
