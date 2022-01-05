@@ -7,8 +7,6 @@ metadata:
     app: jupyter
     service: jupyter
 spec:
-  type: ExternalName
-  externalName: jupyter.int.anhdle14.me
   ports:
     - protocol: TCP
       port: 80

@@ -7,8 +7,6 @@ metadata:
     app: code-server
     service: code-server
 spec:
-  type: ExternalName
-  externalName: code.int.anhdle14.me
   ports:
     - protocol: TCP
       port: 80
