@@ -58,7 +58,7 @@ config:
   routes:
     - from: https://httpbin.int.anhdle14.me
       to: http://httpbin.default.svc.cluster.local:8000
-      # allow_websockets: true
+      allow_websockets: true
       allowed_domains:
         - int.anhdle14.me
       policy:
@@ -68,7 +68,7 @@ config:
                   is: anhdle14@icloud.com
     - from: https://jupyter.int.anhdle14.me
       to: http://jupyter.jupyter.svc.cluster.local
-      # allow_websockets: true
+      allow_websockets: true
       allowed_domains:
         - int.anhdle14.me
       policy:
@@ -77,8 +77,8 @@ config:
               - email:
                   is: anhdle14@icloud.com
     - from: https://code.int.anhdle14.me
-      to: http://code.code-server.svc.cluster.local
-      # allow_websockets: true
+      to: http://code-server.code-server.svc.cluster.local
+      allow_websockets: true
       allowed_domains:
         - int.anhdle14.me
       policy:
