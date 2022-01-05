@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+    - "httpbin.int.anhdle14.me"
+  gateways:
+    - istio-system/gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 80
+            host: pomeirum-proxy.pomerium.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: httpbin-destination-rule
+spec:
+  host: httpbin.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: httpbin-session-affinity-cookie
+          ttl: 0s

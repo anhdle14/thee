@@ -165,6 +165,13 @@ metrics-server-app:
 metrics-server-deinit:
 	@kubectl delete -k deployment/metrics-server
 
+## Pomerium ####################################################################
+pomerium-sealed-secret:
+	@echo "INFO pomerium secrets"
+	@kubeseal $(kubeseal_args) \
+		< deployment/pomerium/base/pomerium.secret.yaml \
+		> deployment/pomerium/base/pomerium.sealedsecret.yaml
+
 ## Sealed Secret ###############################################################
 sealed-secret-init:
 	@kubectl apply -k deployment/sealed-secret
@@ -175,17 +182,7 @@ sealed-secret-app:
 sealed-secret-deinit:
 	@kubectl delete -k deployment/sealed-secret
 
-sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret
-
-## Kube Prometheus Stack #######################################################
-kube-prometheus-stack-init:
-	@kubectl apply -k deployment/kube-prometheus-stack
-
-kube-prometheus-stack-app:
-	@kubectl apply -k deployment/kube-prometheus-stack/app
-
-kube-prometheus-stack-deinit:
-	@kubectl apply -k deployment/kube-prometheus-stack
+sealed-secret-make: cert-manager-sealed-secret argo-cd-sealed-secret pomerium-sealed-secret
 
 ## Sleep #######################################################################
 sleep-init:
