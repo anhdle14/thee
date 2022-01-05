@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: pomerium
+  namespace: pomerium
+spec:
+  gateways:
+    - istio-system/gateway
+  hosts:
+    - auth.int.anhdle14.me
+  http:
+    - route:
+        - destination:
+            host: pomerium-authenticate.istio-system.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: external-idp
+  namespace: pomerium
+spec:
+  hosts:
+    - anhdle14.jp.auth0.com
+  location: MESH_EXTERNAL
+  ports:
+    - number: 443
+      name: https
+      protocol: TLS
+  resolution: DNS

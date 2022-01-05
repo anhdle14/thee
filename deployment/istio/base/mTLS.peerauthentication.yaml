@@ -5,4 +5,14 @@ metadata:
   namespace: "istio-system"
 spec:
   mtls:
-    mode: STRICT
+    # mode: STRICT
+    # FIXME: Currently when enabled mTLS Pomerium will not work.
+    #        The error coming from Istio-proxy sidecar:
+    #           [2022-01-05T08:14:57.593Z] "- - -" 0 NR filter_chain_not_found - "-" 0 0 1 - "-" "-" "-" "-" "-" - - 10.1.0.61:80 10.1.0.98:38224 - -
+    #           [2022-01-05T08:14:58.025Z] "- - -" 0 NR filter_chain_not_found - "-" 0 0 1 - "-" "-" "-" "-" "-" - - 10.1.0.61:80 10.1.0.98:38226 - -
+    #           [2022-01-05T08:14:58.076Z] "- - -" 0 NR filter_chain_not_found - "-" 0 0 0 - "-" "-" "-" "-" "-" - - 10.1.0.61:80 10.1.0.98:38230 - -
+    #        One of the fix is to change the tls from pomerium
+    #           to be the one from envoy sidecar
+    #           instead of cert-manager tls like demonstrated here:
+    #             https://istio.io/latest/docs/ops/integrations/prometheus/#tls-settings
+    mode: PERMISSIVE

@@ -4,6 +4,10 @@ namespace: default
 
 resources:
   - base/httpbin.deploy.yaml
-  - base/httpbin.istio.yaml
   - base/httpbin.sa.yaml
   - base/httpbin.svc.yaml
+  # NOTE: This use the default VS
+  # - base/httpbin.istio.yaml
+
+  # NOTE: This use Pomerium Proxy
+  - base/httpbin.pomerium.yaml

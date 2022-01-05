@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: jupyter
+  namespace: jupyter
+spec:
+  hosts:
+    - jupyter.int.anhdle14.me
+  gateways:
+    - istio-system/gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 80
+            host: pomerium-proxy.istio-system.svc.cluster.local

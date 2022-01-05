@@ -176,11 +176,18 @@ metrics-server-deinit:
 	@kubectl delete -k deployment/metrics-server
 
 ## Pomerium ####################################################################
+pomerium-init:
+	@kubectl apply -k deployment/pomerium
+	@helm upgrade --install pomerium pomerium/pomerium --values deployment/pomerium/values.yaml --namespace istio-system
+
 pomerium-sealed-secret:
 	@echo "INFO pomerium secrets"
 	@kubeseal $(kubeseal_args) \
 		< deployment/pomerium/base/pomerium.secret.yaml \
 		> deployment/pomerium/base/pomerium.sealedsecret.yaml
+
+pomerium-deinit:
+	@kubectl delete -k deployment/pomerium
 
 ## Sealed Secret ###############################################################
 sealed-secret-init:

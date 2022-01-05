@@ -12,7 +12,7 @@ spec:
         - destination:
             port:
               number: 80
-            host: pomeirum-proxy.pomerium.svc.cluster.local
+            host: pomerium-proxy.istio-system.svc.cluster.local
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule

@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: pomerium
+  labels:
+    istio-injection: enabled
