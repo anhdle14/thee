@@ -3,6 +3,8 @@ kind: VirtualService
 metadata:
   name: pomerium
   namespace: pomerium
+  labels:
+    argocd.argoproj.io/instance: pomerium-kustomize
 spec:
   gateways:
     - istio-system/gateway
@@ -20,6 +22,8 @@ kind: ServiceEntry
 metadata:
   name: external-idp
   namespace: pomerium
+  labels:
+    argocd.argoproj.io/instance: pomerium-kustomize
 spec:
   hosts:
     - anhdle14.jp.auth0.com

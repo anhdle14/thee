@@ -24,7 +24,7 @@ extraEnvFrom:
 #     name: istio-certs
 # podAnnotations:
 #   # do not intercept any inbound ports
-#   traffic.sidecar.istio.io/includeInboundPorts: ""   
+#   traffic.sidecar.istio.io/includeInboundPorts: ""
 #   # do not intercept any outbound traffic
 #   traffic.sidecar.istio.io/includeOutboundIPRanges: ""
 #   # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
@@ -32,7 +32,7 @@ extraEnvFrom:
 #     proxyMetadata:
 #       OUTPUT_CERTS: /etc/istio-output-certs
 #   # mount the shared volume at sidecar proxy
-#   sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]' 
+#   sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
 # TODO: Then change the path of the TLS and CA here:
 
 proxy:

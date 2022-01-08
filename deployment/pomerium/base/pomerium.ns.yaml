@@ -4,3 +4,4 @@ metadata:
   name: pomerium
   labels:
     istio-injection: enabled
+    argocd.argoproj.io/instance: pomerium-kustomize
