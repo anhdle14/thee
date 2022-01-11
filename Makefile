@@ -1,15 +1,14 @@
 kubeseal_args=--controller-name sealed-secrets-controller --controller-namespace kube-system -o yaml
 
 ## Check CLI ###################################################################
-check:
-	@echo ": kubectl version"
-	@kubectl version --short
-	@echo ": istioctl version"
-	@istioctl version --short --remote=false
-	@echo ": kubeseal version"
-	@kubeseal --version
-	@echo ": istio-injection=enabled for default namespace"
-	@kubectl label namespace default istio-injection=enabled --overwrite
+infra:
+	@echo "Infra"
+
+minimal:
+	@echo "Minimal"
+
+full:
+	@echo "Full"
 
 ## ArgoCD ######################################################################
 argo-cd-init:
@@ -178,7 +177,6 @@ metrics-server-deinit:
 ## Pomerium ####################################################################
 pomerium-init:
 	@kubectl apply -k deployment/pomerium
-	@helm upgrade --install pomerium pomerium/pomerium --values deployment/pomerium/values.yaml --namespace istio-system
 
 pomerium-app:
 	@kubectl apply -k deployment/pomerium/app

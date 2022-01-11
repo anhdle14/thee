@@ -10,7 +10,7 @@ spec:
   source:
     chart: pomerium
     repoURL: https://helm.pomerium.io
-    targetRevision: v7.0.1
+    targetRevision: v26.0.1
     helm:
       releaseName: pomerium
       # FIXME: Wait for ArgoCD 2.3 so we can separate the values to another file
@@ -20,7 +20,6 @@ spec:
       # FIXME: Setup ServiceMonitor for other systems
       # FIXME: Fix Authentication for Prometheus (https://prometheus.io/docs/prometheus/latest/configuration/configuration/#oauth2)
       values: |
-        # FIXME: Wait for ArgoCD 2.3 so we can separate the values to another file
         authenticate:
           existingTLSSecret: wildcard-anhdle14-me-secret
           proxied: false
