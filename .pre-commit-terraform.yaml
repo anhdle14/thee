@@ -1,0 +1,11 @@
+files: ^infrastructure/
+repos:
+- repo: git://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.45.0
+  hooks:
+    - id: terraform_fmt
+    - id: terraform_tflint
+    - id: terraform_docs
+    - id: terraform_tfsec
+    - id: checkov
+      args: ["-o", "github_failed_only", "--skip-check", "CKV_K8S_21"]
