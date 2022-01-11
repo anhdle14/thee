@@ -5,4 +5,4 @@ kind: Kustomization
 namespace: argo-cd
 
 resources:
-  - pomerium.application.yaml
+  - pomerium-kustomize.application.yaml

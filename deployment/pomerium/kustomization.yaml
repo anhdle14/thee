@@ -5,3 +5,4 @@ resources:
   - base/pomerium.ns.yaml
   - base/pomerium.vs.yaml
   - base/pomerium.sealedsecret.yaml
+  - base/pomerium-helm.application.yaml
