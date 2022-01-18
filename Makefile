@@ -1,14 +1,26 @@
 kubeseal_args=--controller-name sealed-secrets-controller --controller-namespace kube-system -o yaml
 
-## Check CLI ###################################################################
-infra:
-	@echo "Infra"
+## One Click Deploy ############################################################
+infra: tf-init tf-apply
 
 minimal:
 	@echo "Minimal"
 
 full:
 	@echo "Full"
+
+## Terraform ###################################################################
+tf-init:
+	@terraform -chdir=infrastructure init -reconfigure -upgrade
+
+tf-plan:
+	@terraform -chdir=infrastructure plan
+
+tf-apply:
+	@terraform -chdir=infrastructure apply
+
+tf-destroy:
+	@terraform -chdir=infrastructure destroy
 
 ## ArgoCD ######################################################################
 argo-cd-init:
