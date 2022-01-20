@@ -11,7 +11,7 @@ spec:
     solvers:
       - dns01:
           cloudDNS:
-            project: anhdle14
+            project: anhdle14-thee
             serviceAccountSecretRef:
               name: clouddns-dns01-solver-svc-acct
               key: key.json
