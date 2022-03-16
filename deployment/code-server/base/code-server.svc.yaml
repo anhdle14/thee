@@ -21,6 +21,6 @@ subsets:
   - addresses:
       # NOTE: Because Istio already exposed :80 and :443 to tailscale VPN. So we can't reuse it for Code Server. That's why we need to provide custom endpoints to tell Docker to look for private IP within the same network.
       # However a more sophisticated way is to install Kubernetes with VPN feature or using Istio for virtual machine.
-      - ip: 192.168.0.186
+      - ip: 192.168.0.155
     ports:
       - port: 8080

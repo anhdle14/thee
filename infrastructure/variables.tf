@@ -12,7 +12,7 @@ variable "device_name" {
   The main device's name that is hosting services in deployment/.
 EOF
 
-  default = "macbook.anhdle14.github"
+  default = "arch.anhdle14.github"
 }
 
 variable "labels" {

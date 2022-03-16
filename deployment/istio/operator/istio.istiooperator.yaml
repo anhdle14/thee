@@ -86,7 +86,7 @@ spec:
     enablePrometheusMerge: true
     extensionProviders: []
   profile: demo
-  tag: 1.12.1
+  tag: 1.13.0
   values:
     base:
       enableCRDTemplates: false
@@ -139,7 +139,7 @@ spec:
       meshNetworks: {}
       mountMtlsCerts: false
       multiCluster:
-        clusterName: "Kubernetes"
+        clusterName: "kubernetes"
         enabled: false
       network: ""
       omitSidecarInjectorConfigMap: false
