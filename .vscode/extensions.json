@@ -1,5 +1,7 @@
 {
   "recommendations": [
-    "chrislajoie.vscode-modelines"
+    "chrislajoie.vscode-modelines",
+    "hashicorp.terraform",
+    "EditorConfig.EditorConfig"
   ]
 }

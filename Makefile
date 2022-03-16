@@ -1,4 +1,8 @@
-kubeseal_args=--controller-name sealed-secrets-controller --controller-namespace kube-system -o yaml
+crio ?= /run/containerd/containerd.sock
+
+kubeseal_args =--controller-name sealed-secrets-controller --controller-namespace kube-system -o yaml
+
+host = $(shell echo $(HOSTNAME) | tr A-Z a-z)
 
 ## One Click Deploy ############################################################
 infra: tf-init tf-apply
@@ -22,6 +26,50 @@ tf-apply:
 tf-destroy:
 	@terraform -chdir=infrastructure destroy
 
+## Kubeadm #####################################################################
+kubeadm-init:
+	echo sudo kubeadm init \
+		--pod-network-cidr="$${KUBEADM_POD_NETWORK_CIDR}" \
+		--service-cidr="$${KUBEADM_SVC_NETWORK_CIDR}" \
+		--cri-socket="$(crio)" \
+		--apiserver-advertise-address=0.0.0.0 \
+		--control-plane-endpoint="$(host)"
+
+	mkdir -p $$HOME/.kube
+	sudo cp -i /etc/kubernetes/admin.conf $$HOME/.kube/config
+	sudo chown $$(id -u):$$(id -g) $$HOME/.kube/config
+
+	kubectl taint nodes --all node-role.kubernetes.io/master-
+
+kubeadm-deinit:
+	sudo kubeadm reset
+	sudo rm -rf /etc/cni/net.d
+	sudo iptables -F
+	sudo iptables -t nat -F
+	sudo iptables -t mangle -F
+	sudo iptables -X
+
+## Calico ######################################################################
+calico-init:
+	@kubectl apply -k deployment/calico
+
+calico-deinit:
+	@kubectl apply -k deployment/calico
+
+## MetalLB #####################################################################
+metal-lb-init:
+	@kubectl get configmap kube-proxy -n kube-system -o yaml | \
+		sed -e "s/strictARP: false/strictARP: true/" | \
+		kubectl apply -f - -n kube-system
+	@envsubst < deployment/metal-lb/base/metal-lb.config.yaml.tmpl > deployment/metal-lb/base/metal-lb.config.yaml
+	@kubectl apply -k deployment/metal-lb
+
+metal-lb-deinit:
+	@kubectl get configmap kube-proxy -n kube-system -o yaml | \
+		sed -e "s/strictARP: true/strictARP: false/" | \
+		kubectl apply -f - -n kube-system
+	@kubectl delete -k deployment/metal-lb
+
 ## ArgoCD ######################################################################
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd
@@ -34,7 +82,6 @@ argo-cd-token:
 		 -o go-template="{{.data.password | base64decode}}"
 
 argo-cd-sealed-secret:
-	@echo "INFO argo-cd secrets"
 	@kubeseal $(kubeseal_args) \
 		< deployment/argo-cd/base/argo-cd.secret.yaml \
 		> deployment/argo-cd/base/argo-cd.sealedsecret.yaml
@@ -84,7 +131,6 @@ cert-manager-app:
 	@kubectl apply -k deployment/cert-manager/app
 
 cert-manager-sealed-secret:
-	@echo "INFO cert-manager secrets"
 	@kubeseal $(kubeseal_args) \
 		< deployment/cert-manager/base/cert-manager.secret.yaml \
 		> deployment/cert-manager/base/cert-manager.sealedsecret.yaml
@@ -194,7 +240,6 @@ pomerium-app:
 	@kubectl apply -k deployment/pomerium/app
 
 pomerium-sealed-secret:
-	@echo "INFO pomerium secrets"
 	@kubeseal $(kubeseal_args) \
 		< deployment/pomerium/base/pomerium.secret.yaml \
 		> deployment/pomerium/base/pomerium.sealedsecret.yaml

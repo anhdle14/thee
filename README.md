@@ -19,7 +19,7 @@ All of this can be setup with GitOps via ArgoCD.
 
 ## Architecture
 
-![RDaaS](assets/RDaaS-Architecture.jpg)
+![RDaaS](assets/rendered/Overview.png)
 
 And all of these are managed automatically via ArgoCD with GitOps:
 

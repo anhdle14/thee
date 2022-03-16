@@ -3,6 +3,11 @@ export PREFIX="anhdle14"
 export TAILSCALE_API_KEY=""
 export TAILSCALE_TAILNET="anhdle14.github"
 
+export KUBEADM_POD_NETWORK_CIDR="10.1.0.0/16"
+export KUBEADM_SVC_NETWORK_CIDR="10.2.0.0/16"
+export CALICO_IPV4POOL_CIDR="10.10.0.0/16"
+export TAILSCALE_SUBNET_CIDR="10.4.0.0/24"
+
 export GOOGLE_PROJECT=""
 export GOOGLE_REGION=""
 export GOOGLE_ZONE=""
@@ -10,3 +15,6 @@ export GOOGLE_BILLING_ACCOUNT_ID=""
 
 GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/infrastructure/${PREFIX}-terraform.json"
 export GOOGLE_APPLICATION_CREDENTIALS
+
+export TF_VAR_load_balancer_ip="$(kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+export TF_VAR_tailscale_subnet_cidr="${TAILSCALE_SUBNET_CIDR}"
