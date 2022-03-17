@@ -11,7 +11,7 @@ spec:
   source:
     chart: kiali-operator
     repoURL: https://kiali.org/helm-charts
-    targetRevision: v1.40.0
+    targetRevision: v1.47.0
     helm:
       releaseName: kiali-operator
       # FIXME: Auth0 authentication for OIDC
