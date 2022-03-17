@@ -70,6 +70,13 @@ metal-lb-deinit:
 		kubectl apply -f - -n kube-system
 	@kubectl delete -k deployment/metal-lb
 
+## OpenEBS #####################################################################
+openebs-init:
+	@kubectl apply -k deployment/openebs
+
+openebs-deinit:
+	@kubectl delete -k deployment/openebs
+
 ## ArgoCD ######################################################################
 argo-cd-init:
 	@kubectl apply -k deployment/argo-cd

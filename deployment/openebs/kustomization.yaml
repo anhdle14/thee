@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://openebs.github.io/charts/openebs-operator.yaml
+
+patchesStrategicMerge:
+- |-
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    name: openebs-hostpath
+    annotations:
+      openebs.io/cas-type: local
+      storageclass.kubernetes.io/is-default-class: "true"
+      cas.openebs.io/config: |
+        #hostpath type will create a PV by
+        # creating a sub-directory under the
+        # BASEPATH provided below.
+        - name: StorageType
+          value: "hostpath"
+        #Specify the location (directory) where
+        # where PV(volume) data will be saved.
+        # A sub-directory with pv-name will be
+        # created. When the volume is deleted,
+        # the PV sub-directory will be deleted.
+        #Default value is /var/openebs/local
+        - name: BasePath
+          value: "/var/openebs/local/"
+  provisioner: openebs.io/local
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
