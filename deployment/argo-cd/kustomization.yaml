@@ -9,7 +9,7 @@ resources:
   - base/argo-cd.sealedsecret.yaml
 
   # Swap to this if you want HA to be installed.
-  # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.1/manifests/ha/install.yaml
+  # - https://raw.githubusercontent.com/argoproj/argo-cd/v2.3.1/manifests/ha/install.yaml
   - https://raw.githubusercontent.com/argoproj/argo-cd/v2.3.1/manifests/install.yaml
 
   - base/argo-cd.istio.yaml
