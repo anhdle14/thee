@@ -28,7 +28,7 @@ tf-destroy:
 
 ## Kubeadm #####################################################################
 kubeadm-init:
-	echo sudo kubeadm init \
+	sudo kubeadm init \
 		--pod-network-cidr="$${KUBEADM_POD_NETWORK_CIDR}" \
 		--service-cidr="$${KUBEADM_SVC_NETWORK_CIDR}" \
 		--cri-socket="$(crio)" \

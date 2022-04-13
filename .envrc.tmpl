@@ -18,3 +18,5 @@ export GOOGLE_APPLICATION_CREDENTIALS
 
 export TF_VAR_load_balancer_ip="$(kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 export TF_VAR_tailscale_subnet_cidr="${TAILSCALE_SUBNET_CIDR}"
+
+export VAULT_ROOT_TOKEN=""
