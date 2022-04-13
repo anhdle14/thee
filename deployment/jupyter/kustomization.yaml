@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - base/jupyter.ns.yaml
   - base/jupyter.svc.yaml
-  # - base/jupyter.istio.yaml
-  - base/jupyter.pomerium.yaml
+  - base/jupyter.istio.yaml
+  # NOTE: We starting to use jupyterhub and they already support GitHub OAuth so we will leverage the built-in instead of trying to wrap it with Pomerium. Just like ArgoCD.
+  # - base/jupyter.pomerium.yaml
