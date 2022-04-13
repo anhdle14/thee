@@ -16,6 +16,8 @@ spec:
             requests:
               cpu: 10m
               memory: 40Mi
+          hpaSpec:
+            minReplicas: 2
         name: istio-egressgateway
     ingressGateways:
       - enabled: true
@@ -47,6 +49,8 @@ spec:
                 port: 15443
                 protocol: TCP
                 targetPort: 15443
+          hpaSpec:
+            minReplicas: 2
         name: istio-ingressgateway
     istiodRemote:
       enabled: false
@@ -76,6 +80,8 @@ spec:
           requests:
             cpu: 10m
             memory: 100Mi
+        hpaSpec:
+          minReplicas: 2
   hub: docker.io/istio
   meshConfig:
     accessLogFile: /dev/stdout
